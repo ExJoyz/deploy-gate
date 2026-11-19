@@ -52,9 +52,42 @@ function readObjective(file) {
   return text;
 }
 
+// The VM's NO_PROXY contains bracketed IPv6 entries ("[::1]",
+// "[fd8b:...]") which break Kane CLI's proxy/URL parsing with
+// "Invalid port: ':1]'". Strip bracketed entries for Kane child
+// processes; localhost/127.0.0.1 stay bypassed. (Found 19 Nov 2026:
+// with the stock NO_PROXY every Kane run dies after ~60 s with that
+// error; with bracket-free NO_PROXY the run passes.)
+function sanitizedEnv() {
+  const env = { ...process.env };
+  for (const key of ['NO_PROXY', 'no_proxy']) {
+    if (!env[key]) continue;
+    env[key] = env[key].split(',').map((s) => s.trim()).filter((s) => s && !s.includes('[')).join(',');
+  }
+  // Kane needs a real Chrome binary; this VM has none at
+  // /usr/bin/google-chrome. Prefer a Playwright Chromium build, else the
+  // Muse browser binary. (19 Nov 2026: the headless shell works too, but
+  // the full Chromium build is the safer default.)
+  if (!env.KANE_CLI_CHROME_PATH) {
+    const home = process.env.HOME || '';
+    const candidates = [];
+    try {
+      const pwDir = path.join(home, '.cache', 'ms-playwright');
+      for (const d of fs.readdirSync(pwDir)) {
+        if (/^chromium-\d+$/.test(d)) candidates.push(path.join(pwDir, d, 'chrome-linux64', 'chrome'));
+        if (/^chromium_headless_shell-\d+$/.test(d)) candidates.push(path.join(pwDir, d, 'chrome-headless-shell-linux64', 'chrome-headless-shell'));
+      }
+    } catch { /* no playwright cache */ }
+    candidates.push('/opt/meta-chromium/chrome');
+    const found = candidates.find((p) => { try { return fs.existsSync(p); } catch { return false; } });
+    if (found) env.KANE_CLI_CHROME_PATH = found;
+  }
+  return env;
+}
+
 function runSync(cmd, args) {
   try {
-    return spawnSync(cmd, args, { encoding: 'utf8', timeout: 30000 });
+    return spawnSync(cmd, args, { encoding: 'utf8', timeout: 30000, env: sanitizedEnv() });
   } catch (err) {
     return { error: err, stdout: '', stderr: '' };
   }
@@ -199,7 +232,7 @@ async function main() {
 
     // 3. Run Kane CLI.
     console.log('[3/4] Running Kane CLI…');
-    const kane = spawn('kane-cli', ['run', objectiveText, '--headless', '--agent'], { stdio: ['ignore', 'pipe', 'pipe'] });
+    const kane = spawn('kane-cli', ['run', objectiveText, '--headless', '--agent'], { stdio: ['ignore', 'pipe', 'pipe'], env: sanitizedEnv() });
     let stdout = '';
     let stderr = '';
     kane.stdout.on('data', (d) => { stdout += d; process.stdout.write(d); });
