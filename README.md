@@ -96,10 +96,13 @@ that caught the bug — that is the loop the judges score.
 - ✅ App works end-to-end locally (API + UI verified with curl, see below).
 - ✅ Gate fails closed correctly when Kane CLI is not logged in (verified:
   prints "Kane CLI belum login", writes `kane-report.md`, exits 2).
-- ⏳ **A real Kane run has not been tested yet** — the TestMu AI account is
-  still being created, so `kane-cli login` has not been done. Once login is
-  complete, run `npm run gate` and the verdict will be real. Nothing in this
-  repo simulates or stubs a Kane pass.
+- ✅ **A real Kane run PASSED on 19 Nov 2026** — `npm run gate` drove a real
+  browser through the full deploy flow (19 steps, 159 s): release "Gate
+  check — v2.0.0" created, Deploy disabled at 0/2 and 1/2 items checked,
+  enabled at 2/2 with status "Ready to deploy", clicked Deploy → status
+  "Deployed" with a timestamp. Kane exit code 0, verdict "passed",
+  evidence uploaded to Test Manager. Nothing in this repo simulates or
+  stubs a Kane pass.
 
 ## Local verification (no Kane needed)
 
@@ -128,8 +131,8 @@ npm run gate   # expect: "Kane CLI belum login", exit code 2, kane-report.md wri
 - [x] App runs end-to-end
 - [x] Kane CLI objectives written (3 testmd files)
 - [x] Closed loop designed (fail → report → fix → re-run)
-- [ ] `kane-cli login` (waiting on TestMu AI account)
-- [ ] Real Kane run passes (`npm run gate` → `dist/` + `deploy-record.json`)
+- [x] `kane-cli login` (basic auth, 19 Nov 2026; balance 11.200 credits)
+- [x] Real Kane run passes (`npm run gate` → `dist/` + `deploy-record.json`) — PASSED 19 Nov 2026, 19 steps, 159 s, evidence on Test Manager
 - [ ] Demo video (3–5 min, YouTube)
 - [ ] 2+ public posts (X / Reddit / LinkedIn / Hacker News)
 - [ ] Submit before 27 Nov 2026 01:29 WIB
