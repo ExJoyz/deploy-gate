@@ -133,6 +133,6 @@ npm run gate   # expect: "Kane CLI belum login", exit code 2, kane-report.md wri
 - [x] Closed loop designed (fail → report → fix → re-run)
 - [x] `kane-cli login` (basic auth, 19 Nov 2026; balance 11.200 credits)
 - [x] Real Kane run passes (`npm run gate` → `dist/` + `deploy-record.json`) — PASSED 19 Nov 2026, 19 steps, 159 s, evidence on Test Manager
-- [ ] Demo video (3–5 min, YouTube)
-- [ ] 2+ public posts (X / Reddit / LinkedIn / Hacker News)
-- [ ] Submit before 27 Nov 2026 01:29 WIB
+- [x] Demo video (3–5 min, YouTube) — 3:03, https://youtu.be/PqGVSyNQHQo (live 19 Nov 2026)
+- [x] 2+ public posts (X / Reddit / LinkedIn / Hacker News) — 2 X posts, 19 Nov 2026
+- [x] Submit before 27 Nov 2026 01:29 WIB — submitted 19 Nov 2026, receipt KH-27YH23
