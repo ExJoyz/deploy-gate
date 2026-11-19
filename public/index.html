@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DeployGate — Launch Board</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <h1>🚀 DeployGate</h1>
+    <p class="tagline">A release cannot deploy until its checklist is green — and Kane CLI agrees.</p>
+  </header>
+
+  <main>
+    <section class="card" aria-label="Create release">
+      <h2>Create a release</h2>
+      <form id="create-form">
+        <label for="release-name-input">Release name</label>
+        <input id="release-name-input" data-testid="release-name-input"
+               type="text" placeholder="e.g. v1.4.0 — checkout revamp" required>
+        <button type="submit" data-testid="create-release-btn">Create release</button>
+      </form>
+    </section>
+
+    <section aria-label="Releases">
+      <h2>Releases</h2>
+      <div id="releases" data-testid="releases-list">
+        <p class="empty" id="empty-state">No releases yet. Create one above.</p>
+      </div>
+    </section>
+
+    <section class="card note" aria-label="How the gate works">
+      <h2>How the gate works</h2>
+      <ol>
+        <li>Add checklist items to a release and check them off as work lands.</li>
+        <li>Checked items move to <strong>Completed</strong>; unchecked stay in <strong>Pending</strong>.</li>
+        <li>The <strong>Deploy</strong> button stays disabled until every item is checked.</li>
+        <li>Even then, deploy only proceeds after Kane CLI verifies the app end-to-end
+            (<code>npm run gate</code>). If Kane fails, the deploy is blocked and a
+            <code>kane-report.md</code> is written instead.</li>
+      </ol>
+    </section>
+  </main>
+
+  <footer>
+    <p>DeployGate — Kane CLI Hackathon entry. The app refuses to deploy until Kane CLI approves.</p>
+  </footer>
+
+  <script src="/app.js"></script>
+</body>
+</html>
