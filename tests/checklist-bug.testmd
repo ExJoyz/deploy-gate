@@ -1,0 +1,13 @@
+# Checklist bug catch — checked items must move to Completed
+
+## Objective
+Open {APP_URL} and catch a checklist state bug if one exists: create a release named "Bug hunt — checklist", add one checklist item called "Verify staging URL", and check its checkbox. Verify that the checked item appears under the "Completed" section and no longer appears under the "Pending" section, and that the progress text reads "1 of 1 checklist items done". Then uncheck the same item and verify it moves back to the "Pending" section and the progress text reads "0 of 1 checklist items done".
+
+## Notes for the agent
+- This test exists to catch a real regression: an item that stays in Pending after being checked, or disappears entirely, is a failure.
+- The two lists are labelled "Pending" and "Completed" inside each release card.
+- The progress line sits under the release name, e.g. "0 of 1 checklist items done".
+
+## Pass criteria
+- Checked item is visible only in Completed; unchecked item is visible only in Pending.
+- Progress text updates immediately after each toggle.

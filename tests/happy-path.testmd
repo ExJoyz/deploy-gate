@@ -1,0 +1,15 @@
+# Happy path — full release flow
+
+## Objective
+Open {APP_URL} and verify the complete happy-path flow of the DeployGate launch board: create a release named "v1.4.0 — checkout revamp", add two checklist items ("Run unit tests" and "Update changelog"), check both items, confirm the release status changes to "Ready to deploy" and the Deploy button becomes enabled, then click Deploy and confirm the release status becomes "Deployed".
+
+## Notes for the agent
+- The app is a single-page launch board. Use the "Release name" input and the "Create release" button.
+- Each release card has an "Add a checklist item" input and an "Add item" button.
+- Checking a checkbox must move the item from the Pending list to the Completed list.
+- The Deploy button is disabled until every checklist item is checked.
+- Success means: status badge reads "Deployed" after clicking Deploy.
+
+## Pass criteria
+- A release can be created, items added, items checked, and the release deploys.
+- No console errors and no dead buttons along the way.
