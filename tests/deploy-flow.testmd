@@ -1,0 +1,13 @@
+# Deploy flow — the gate itself
+
+## Objective
+Open {APP_URL} and verify the deploy gate end to end: create a release named "Gate check — v2.0.0", add two checklist items ("Smoke test login" and "Check mobile layout"), and confirm the Deploy button is DISABLED while any item is unchecked. Check only the first item and confirm the Deploy button is STILL disabled. Then check the second item and confirm the Deploy button becomes enabled and the status reads "Ready to deploy". Click Deploy and confirm the status changes to "Deployed" and a deployed timestamp is shown.
+
+## Notes for the agent
+- This is the objective the deploy gate runs by default (`npm run gate`).
+- The Deploy button must never be clickable before every checklist item is checked — a clickable button in that state is a failure of the gate itself.
+- After deploying, the release card should show the deployed state; do not create a second release.
+
+## Pass criteria
+- Deploy disabled with 0/2 and 1/2 items checked; enabled with 2/2 checked.
+- Clicking Deploy with all items checked results in status "Deployed".
